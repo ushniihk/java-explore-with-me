@@ -1,0 +1,21 @@
+package ru.practicum.exploreWithMe.event.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UpdateEventRequest {
+    private String annotation;
+    private long category;
+    private String description;
+    private String eventDate;
+    private long eventId;
+    private boolean paid;
+    private int participantLimit;
+    private String title;
+}
