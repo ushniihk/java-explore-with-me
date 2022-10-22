@@ -8,11 +8,12 @@ import ru.practicum.exploreWithMe.event.model.EventShortDto;
 import ru.practicum.exploreWithMe.event.model.NewEventDto;
 import ru.practicum.exploreWithMe.event.model.UpdateEventRequest;
 import ru.practicum.exploreWithMe.event.service.EventService;
+import ru.practicum.exploreWithMe.participationRequest.ParticipationRequestDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/private/users")
+@RequestMapping(path = "/users")
 @RequiredArgsConstructor
 @Data
 public class PrivateEventController {
@@ -31,7 +32,7 @@ public class PrivateEventController {
     }
 
     @PostMapping("/{userId}/events")
-    public NewEventDto add(@PathVariable long userId, @RequestBody NewEventDto eventDto) {
+    public EventFullDto add(@PathVariable long userId, @RequestBody NewEventDto eventDto) {
         return eventService.add(userId, eventDto);
     }
 
@@ -45,13 +46,18 @@ public class PrivateEventController {
         return eventService.update(userId, eventDto);
     }
 
+    @GetMapping("/{userId}/events/{eventId}/requests")
+    public List<ParticipationRequestDTO> getRequestsForEvent(@PathVariable long userId, @PathVariable long eventId) {
+        return eventService.getRequestsForEvent(userId, eventId);
+    }
+
     @PatchMapping("/{userId}/events/{eventId}/requests/{reqId}/confirm")
-    public NewEventDto confirm(@PathVariable long userId, @PathVariable long eventId, @PathVariable long reqId) {
+    public ParticipationRequestDTO confirm(@PathVariable long userId, @PathVariable long eventId, @PathVariable long reqId) {
         return eventService.confirm(userId, eventId, reqId);
     }
 
     @PatchMapping("/{userId}/events/{eventId}/requests/{reqId}/reject")
-    public NewEventDto reject(@PathVariable long userId, @PathVariable long eventId, @PathVariable long reqId) {
+    public ParticipationRequestDTO reject(@PathVariable long userId, @PathVariable long eventId, @PathVariable long reqId) {
         return eventService.reject(userId, eventId, reqId);
     }
 

@@ -24,9 +24,9 @@ public class Event {
     private long category;
     @Column(name = "description", nullable = false)
     private String description;
-    @Column(name = "eventDate", nullable = false)
+    @Column(name = "EVENT_DATE", nullable = false)
     private LocalDateTime eventDate;
-    @Column(name = "createdOn")
+    @Column(name = "created_on")
     private LocalDateTime createdOn;
     @Column(name = "initiator")
     private long initiator;
@@ -34,21 +34,21 @@ public class Event {
     private long location;
     @Column(name = "paid")
     private boolean paid;
-    @Column(name = "participantLimit")
-    private int participantLimit;
-    @Column(name = "publishedOn")
+    @Column(name = "participant_limit")
+    private long participantLimit;
+    @Column(name = "published_on")
     private LocalDateTime publishedOn;
-    @Column(name = "requestModeration")
+    @Column(name = "request_moderation")
     private boolean requestModeration;
     @Column(name = "state")
     private String state;
     @Column(name = "title")
     private String title;
-    @Column(name = "views")
+    @Column(name = "VIEWS")
     private long views;
 
     public Event(String annotation, long category, String description, LocalDateTime eventDate, long location, boolean paid,
-                 int participantLimit, boolean requestModeration, String title) {
+                 long participantLimit, boolean requestModeration, String title) {
         this.annotation = annotation;
         this.category = category;
         this.description = description;
@@ -61,7 +61,7 @@ public class Event {
     }
 
     public Event(long eventId, String annotation, long category, String description, LocalDateTime eventDate, boolean paid,
-                 int participantLimit, String title) {
+                 long participantLimit, String title) {
         this.id = eventId;
         this.annotation = annotation;
         this.category = category;

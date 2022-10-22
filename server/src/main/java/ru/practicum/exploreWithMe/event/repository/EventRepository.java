@@ -10,4 +10,12 @@ import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> getAllByInitiator(long userId, PageRequest pageRequest);
+    @Query(value = "select e from Event e where e.paid = ?3 and e.category in ?2 and e.state = ?1")
+    Page<Event> getAllPublished(String published, String[] categories, boolean paid, PageRequest pageRequest);
+
+    @Query(value = "select e " +
+            "from Event e join EventCompilation ec on e.id = ec.eventId " +
+            "where ec.compilationId = ?1")
+    List<Event> getCompilationsEvents(long compilationId);
+
 }

@@ -33,9 +33,8 @@ public class EventMapper {
     private final CategoryRepository categoryRepository;
     private final ParticipationRequestsRepository prRepository;
 
-    public NewEventDto toNewEventDto(Event event) {
+/*    public NewEventDto toNewEventDto(Event event) {
         return new NewEventDto(
-                event.getId(),
                 event.getAnnotation(),
                 event.getCategory(),
                 event.getDescription(),
@@ -46,7 +45,7 @@ public class EventMapper {
                 event.isRequestModeration(),
                 event.getTitle()
         );
-    }
+    }*/
 
     public Event toEvent(UpdateEventRequest eventDto){
         return new Event(
@@ -62,6 +61,21 @@ public class EventMapper {
     }
 
     public Event toEvent(NewEventDto eventDto) {
+        return new Event(
+                eventDto.getAnnotation(),
+                eventDto.getCategory(),
+                eventDto.getDescription(),
+                LocalDateTime.parse(eventDto.getEventDate(), dtf),
+                locationRepository.getLocationByLatAndLon(
+                        eventDto.getLocation().getLat(), eventDto.getLocation().getLon()).getId(),
+                eventDto.isPaid(),
+                eventDto.getParticipantLimit(),
+                eventDto.isRequestModeration(),
+                eventDto.getTitle()
+        );
+    }
+
+    public Event toEvent(AdminUpdateEventRequest eventDto, long eventId) {
         return new Event(
                 eventDto.getAnnotation(),
                 eventDto.getCategory(),

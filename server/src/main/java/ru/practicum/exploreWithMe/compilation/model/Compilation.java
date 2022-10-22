@@ -1,4 +1,4 @@
-package ru.practicum.exploreWithMe.compilation;
+package ru.practicum.exploreWithMe.compilation.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +16,13 @@ public class Compilation {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "pined", nullable = false)
+    @Column(name = "pinned")
     private boolean pinned;
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
-    @Column(name = "eventId", nullable = false)
-    private long eventId;
+
+    public Compilation(boolean pinned, String title) {
+        this.pinned = pinned;
+        this.title = title;
+    }
 }

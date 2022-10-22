@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewEventDto {
-    private long id;
     @Size(min = 20, max = 2000)
     private String annotation;
     private long category;

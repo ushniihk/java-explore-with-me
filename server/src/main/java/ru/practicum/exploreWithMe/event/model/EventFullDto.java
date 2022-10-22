@@ -21,7 +21,7 @@ public class EventFullDto {
     private UserShortDto initiator;
     private LocationDto location;
     private boolean paid;
-    private int participantLimit;
+    private long participantLimit;
     private String publishedOn;
     private boolean requestModeration;
     private String state;
@@ -30,7 +30,7 @@ public class EventFullDto {
 
     public EventFullDto(String annotation, CategoryDto category, long confirmedRequests, String createdOn,
                         String description, String eventDate, long id, UserShortDto initiator, LocationDto location,
-                        boolean paid, int participantLimit, boolean requestModeration, String state, String title,
+                        boolean paid, long participantLimit, boolean requestModeration, String state, String title,
                         long views) {
         this.annotation = annotation;
         this.category = category;

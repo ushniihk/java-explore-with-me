@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "participationRequests")
+@Table(name = "participation_requests")
 @Entity
 public class ParticipationRequest {
     @Id
@@ -19,9 +19,9 @@ public class ParticipationRequest {
     private long id;
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
-    @Column(name = "eventId", nullable = false)
+    @Column(name = "EVENT_ID", nullable = false)
     private long eventId;
-    @Column(name = "requesterId", nullable = false)
+    @Column(name = "REQUESTER_ID", nullable = false)
     private long requesterId;
     @Column(name = "status", nullable = false)
     private String status;

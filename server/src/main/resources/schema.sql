@@ -1,10 +1,10 @@
 drop table if exists events cascade;
-drop table if exists location cascade;
-drop table if exists participationRequests cascade;
-drop table if exists categories cascade;
-drop table if exists users cascade;
+drop table if exists locations cascade;
+drop table if exists participation_requests cascade;
 drop table if exists compilations cascade;
-drop table if exists events_compilations;
+drop table if exists users cascade;
+drop table if exists events_compilation cascade;
+drop table if exists categories cascade;
 
 create table if not exists locations
 (
@@ -34,39 +34,47 @@ create table if not exists events
     annotation        varchar(2000)               NOT NULL,
     category          bigint,
     description       varchar(7000)               NOT NULL,
-    eventDate         TIMESTAMP WITHOUT TIME ZONE not null,
-    createdOn         TIMESTAMP WITHOUT TIME ZONE,
+    EVENT_DATE        TIMESTAMP WITHOUT TIME ZONE,
+    created_on         TIMESTAMP WITHOUT TIME ZONE,
     initiator         bigint,
     location          bigint,
     paid              boolean,
-    participantLimit  int,
-    publishedOn       TIMESTAMP WITHOUT TIME ZONE,
-    requestModeration boolean,
-    state             varchar(18),
-    title             varchar(69),
-    views             bigint,
+    participant_limit  bigint,
+    published_on       TIMESTAMP WITHOUT TIME ZONE,
+    request_moderation boolean,
+    state             varchar(300),
+    title             varchar(300),
+    VIEWS             bigint,
     CONSTRAINT fk_location FOREIGN KEY (location) REFERENCES locations (id),
     CONSTRAINT fk_category FOREIGN KEY (category) REFERENCES categories (id),
     CONSTRAINT fk_users FOREIGN KEY (initiator) REFERENCES users (id)
 );
 
-create table if not exists participationRequests
+create table if not exists participation_requests
 (
     id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     created     timestamp with time zone not null,
-    eventId     bigint                   not null,
-    requesterId bigint                   not null,
+    EVENT_ID     bigint                   not null,
+    REQUESTER_ID bigint                   not null,
     status      varchar                  not null,
-    CONSTRAINT fk_request_for_event FOREIGN KEY (eventId) REFERENCES events (id),
-    CONSTRAINT fk_request_for_user FOREIGN KEY (requesterId) REFERENCES users (id)
+    CONSTRAINT fk_request_for_event FOREIGN KEY (EVENT_ID) REFERENCES events (id),
+    CONSTRAINT fk_request_for_user FOREIGN KEY (REQUESTER_ID) REFERENCES users (id)
+);
+
+create table if not exists events_compilation
+(
+    id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    EVENT_ID       bigint not null,
+    compilation_id bigint not null
+/*    CONSTRAINT fk_event_id_for_event FOREIGN KEY (EVENT_ID) REFERENCES events (id),
+    CONSTRAINT fk_compilation_for_event FOREIGN KEY (COMPILATION_ID) REFERENCES compilations (id)*/
 );
 
 create table if not exists compilations
 (
-    id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    eventId bigint  not null,
-    pinned  boolean not null,
-    title   varchar(69),
-    CONSTRAINT fk_compilation_for_event FOREIGN KEY (eventId) REFERENCES events (id)
+    id     BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    pinned boolean,
+    title  varchar(256)
 );
+
 

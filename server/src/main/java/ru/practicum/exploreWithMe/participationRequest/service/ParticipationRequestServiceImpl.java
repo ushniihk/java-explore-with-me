@@ -36,11 +36,8 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
         checkEvent(userId, event);
         ParticipationRequest request =
                 new ParticipationRequest(LocalDateTime.now(), eventId, userId, Status.PENDING.toString());
-        if (!event.isRequestModeration())
+        if (!event.isRequestModeration() || event.getParticipantLimit() == 0)
             request.setStatus(Status.CONFIRMED.toString());
-        /*
-        чекнуть где дают аппрувы на статус
-       */
         return RequestMapper.toDto(request);
     }
 

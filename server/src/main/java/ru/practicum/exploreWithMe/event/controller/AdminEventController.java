@@ -3,6 +3,8 @@ package ru.practicum.exploreWithMe.event.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.exploreWithMe.event.model.AdminUpdateEventRequest;
+import ru.practicum.exploreWithMe.event.model.EventFullDto;
 import ru.practicum.exploreWithMe.event.model.NewEventDto;
 import ru.practicum.exploreWithMe.event.service.EventService;
 
@@ -22,8 +24,8 @@ public class AdminEventController {
     }
 
     @PutMapping("/{eventId}")
-    public NewEventDto update(@PathVariable long eventId, @RequestBody NewEventDto eventDto) {
-        return null;
+    public EventFullDto update(@PathVariable long eventId, @RequestBody AdminUpdateEventRequest eventDto) {
+        return eventService.adminUpdate(eventId, eventDto);
     }
 
     @PatchMapping("/{eventId}/publish")
