@@ -1,11 +1,11 @@
-package ru.practicum.exploreWithMe.event.model;
+package ru.practicum.exploreWithMe.event.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.exploreWithMe.category.model.CategoryDto;
-import ru.practicum.exploreWithMe.location.LocationDto;
-import ru.practicum.exploreWithMe.user.model.UserShortDto;
+import ru.practicum.exploreWithMe.category.dto.CategoryDto;
+import ru.practicum.exploreWithMe.location.dto.LocationDto;
+import ru.practicum.exploreWithMe.user.dto.UserShortDto;
 
 @Data
 @AllArgsConstructor

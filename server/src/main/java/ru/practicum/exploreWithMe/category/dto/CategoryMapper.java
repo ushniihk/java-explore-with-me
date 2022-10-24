@@ -1,5 +1,7 @@
-package ru.practicum.exploreWithMe.category.model;
+package ru.practicum.exploreWithMe.category.dto;
 
+
+import ru.practicum.exploreWithMe.category.model.Category;
 
 public class CategoryMapper {
     public static Category toCategory(CategoryDto dto) {

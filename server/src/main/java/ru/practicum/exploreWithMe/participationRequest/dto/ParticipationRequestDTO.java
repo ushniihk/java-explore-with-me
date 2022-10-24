@@ -1,4 +1,4 @@
-package ru.practicum.exploreWithMe.participationRequest;
+package ru.practicum.exploreWithMe.participationRequest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class ParticipationRequestDTO {
     private long id;
     private LocalDateTime created;
-    private long eventId;
-    private long requesterId;
+    private long event;
+    private long requester;
     private String status;
 }

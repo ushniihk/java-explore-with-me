@@ -1,10 +1,11 @@
-package ru.practicum.exploreWithMe.compilation.model;
+package ru.practicum.exploreWithMe.compilation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
+import ru.practicum.exploreWithMe.compilation.model.Compilation;
 import ru.practicum.exploreWithMe.compilation.repository.CompilationRepository;
-import ru.practicum.exploreWithMe.event.model.EventMapper;
+import ru.practicum.exploreWithMe.event.dto.EventMapper;
 import ru.practicum.exploreWithMe.event.repository.EventRepository;
 
 import java.util.stream.Collectors;

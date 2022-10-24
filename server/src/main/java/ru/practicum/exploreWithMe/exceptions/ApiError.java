@@ -1,13 +1,11 @@
 package ru.practicum.exploreWithMe.exceptions;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
+
 @Data
 public class ApiError {
 

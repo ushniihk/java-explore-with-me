@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.exploreWithMe.compilation.model.EventCompilation;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface EventCompilationRepository extends JpaRepository<EventCompilation, Long> {

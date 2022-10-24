@@ -3,9 +3,8 @@ package ru.practicum.exploreWithMe.event.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.exploreWithMe.event.model.AdminUpdateEventRequest;
-import ru.practicum.exploreWithMe.event.model.EventFullDto;
-import ru.practicum.exploreWithMe.event.model.NewEventDto;
+import ru.practicum.exploreWithMe.event.dto.EventFullDto;
+import ru.practicum.exploreWithMe.event.dto.UpdateEventRequest;
 import ru.practicum.exploreWithMe.event.service.EventService;
 
 import java.util.List;
@@ -16,25 +15,31 @@ import java.util.List;
 @Data
 public class AdminEventController {
 
-    EventService eventService;
+    private final EventService eventService;
 
     @GetMapping
-    public List<NewEventDto> getAll() {
-        return null;
+    public List<EventFullDto> getAll(@RequestParam List<Long> users,
+                                    @RequestParam List<String> states,
+                                    @RequestParam List<Long> categories,
+                                    @RequestParam String rangeStart,
+                                    @RequestParam String rangeEnd,
+                                    @RequestParam (required = false, defaultValue = "0") int from,
+                                    @RequestParam (required = false, defaultValue = "10") int size) {
+        return eventService.getAllByAdmin(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     @PutMapping("/{eventId}")
-    public EventFullDto update(@PathVariable long eventId, @RequestBody AdminUpdateEventRequest eventDto) {
+    public EventFullDto update(@PathVariable long eventId, @RequestBody UpdateEventRequest eventDto) {
         return eventService.adminUpdate(eventId, eventDto);
     }
 
     @PatchMapping("/{eventId}/publish")
-    public List<NewEventDto> publish(@PathVariable long eventId) {
-        return null;
+    public EventFullDto publish(@PathVariable long eventId) {
+        return eventService.publish(eventId);
     }
 
     @PatchMapping("/{eventId}/reject")
-    public List<NewEventDto> reject(@PathVariable long eventId) {
-        return null;
+    public EventFullDto reject(@PathVariable long eventId) {
+        return eventService.adminReject(eventId);
     }
 }

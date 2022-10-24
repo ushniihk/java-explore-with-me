@@ -3,13 +3,17 @@ package ru.practicum.exploreWithMe.participationRequest.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.exploreWithMe.event.model.Event;
-import ru.practicum.exploreWithMe.event.model.NewEventDto;
 import ru.practicum.exploreWithMe.event.repository.EventRepository;
 import ru.practicum.exploreWithMe.exceptions.IncorrectParameterException;
 import ru.practicum.exploreWithMe.exceptions.UpdateException;
-import ru.practicum.exploreWithMe.participationRequest.*;
+import ru.practicum.exploreWithMe.participationRequest.model.ParticipationRequest;
+import ru.practicum.exploreWithMe.participationRequest.dto.ParticipationRequestDTO;
+import ru.practicum.exploreWithMe.participationRequest.dto.RequestMapper;
+import ru.practicum.exploreWithMe.participationRequest.model.Status;
+import ru.practicum.exploreWithMe.participationRequest.repository.ParticipationRequestsRepository;
 import ru.practicum.exploreWithMe.user.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +33,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
     }
 
     @Override
+    @Transactional
     public ParticipationRequestDTO add(long userId, long eventId) {
         checkEventId(eventId);
         checkUserId(userId);
@@ -38,17 +43,18 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
                 new ParticipationRequest(LocalDateTime.now(), eventId, userId, Status.PENDING.toString());
         if (!event.isRequestModeration() || event.getParticipantLimit() == 0)
             request.setStatus(Status.CONFIRMED.toString());
+        participationRequestsRepository.save(request);
         return RequestMapper.toDto(request);
     }
 
     @Override
-    public void cancel(long userId, long requestId) {
+    public ParticipationRequestDTO cancel(long userId, long requestId) {
         checkUserId(userId);
-        if (!participationRequestsRepository.existsByRequesterIdAndEventId(userId, requestId))
+        if (!participationRequestsRepository.existsById(requestId))
             throw new UpdateException("bad request Id");
         ParticipationRequest request = participationRequestsRepository.getReferenceById(requestId);
         request.setStatus(Status.CANCELED.toString());
-        participationRequestsRepository.save(request);
+        return RequestMapper.toDto(participationRequestsRepository.save(request));
     }
 
     private void checkEvent(long userId, Event event) {

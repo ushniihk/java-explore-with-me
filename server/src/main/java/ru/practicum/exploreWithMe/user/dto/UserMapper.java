@@ -1,7 +1,8 @@
-package ru.practicum.exploreWithMe.user.model;
+package ru.practicum.exploreWithMe.user.dto;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import ru.practicum.exploreWithMe.user.model.User;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserMapper {

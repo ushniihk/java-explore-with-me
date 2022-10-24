@@ -1,8 +1,10 @@
 package ru.practicum.exploreWithMe.event.service;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import ru.practicum.exploreWithMe.event.model.*;
-import ru.practicum.exploreWithMe.participationRequest.ParticipationRequestDTO;
+import ru.practicum.exploreWithMe.event.dto.EventFullDto;
+import ru.practicum.exploreWithMe.event.dto.EventShortDto;
+import ru.practicum.exploreWithMe.event.dto.NewEventDto;
+import ru.practicum.exploreWithMe.event.dto.UpdateEventRequest;
+import ru.practicum.exploreWithMe.participationRequest.dto.ParticipationRequestDTO;
 
 import java.util.List;
 
@@ -11,8 +13,8 @@ public interface EventService {
 
     EventFullDto getPublished(long eventId);
 
-    List<EventFullDto> getAllPublished(String text, String[] categories, boolean paid, String rangeStart,
-                                        String rangeEnd, String sort, boolean onlyAvailable, int from, int size);
+    List<EventFullDto> getAllPublished(String text, List<Long> categories, boolean paid, String rangeStart,
+                                       String rangeEnd, String sort, boolean onlyAvailable, int from, int size);
 
     List<EventShortDto> getAllByUser(long userId, int from, int size);
 
@@ -24,10 +26,17 @@ public interface EventService {
 
     EventFullDto update(long userId, UpdateEventRequest eventDto);
 
-    EventFullDto adminUpdate(long eventId, AdminUpdateEventRequest eventDto);
+    EventFullDto adminUpdate(long eventId, UpdateEventRequest eventDto);
 
 
     ParticipationRequestDTO confirm(long userId, long eventId, long reqId);
 
     ParticipationRequestDTO reject(long userId, long eventId, long reqId);
+
+    EventFullDto publish(long eventId);
+
+    EventFullDto adminReject(long eventId);
+
+    List<EventFullDto> getAllByAdmin(List<Long> users, List<String> states, List<Long> categories, String rangeStart,
+                                     String rangeEnd, int from, int size);
 }

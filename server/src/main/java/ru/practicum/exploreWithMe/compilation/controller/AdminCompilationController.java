@@ -3,8 +3,8 @@ package ru.practicum.exploreWithMe.compilation.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.exploreWithMe.compilation.model.CompilationDto;
-import ru.practicum.exploreWithMe.compilation.model.NewCompilationDto;
+import ru.practicum.exploreWithMe.compilation.dto.CompilationDto;
+import ru.practicum.exploreWithMe.compilation.dto.NewCompilationDto;
 import ru.practicum.exploreWithMe.compilation.service.CompilationService;
 
 @RestController

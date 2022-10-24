@@ -1,25 +1,27 @@
 package ru.practicum.exploreWithMe.event.service;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.exploreWithMe.event.State;
+import ru.practicum.exploreWithMe.event.dto.*;
 import ru.practicum.exploreWithMe.event.model.*;
 import ru.practicum.exploreWithMe.event.repository.EventRepository;
 import ru.practicum.exploreWithMe.exceptions.IncorrectParameterException;
 import ru.practicum.exploreWithMe.exceptions.UpdateException;
-import ru.practicum.exploreWithMe.location.LocationMapper;
-import ru.practicum.exploreWithMe.location.LocationRepository;
-import ru.practicum.exploreWithMe.participationRequest.*;
-import ru.practicum.exploreWithMe.user.model.UserMapper;
+import ru.practicum.exploreWithMe.location.dto.LocationMapper;
+import ru.practicum.exploreWithMe.location.repository.LocationRepository;
+import ru.practicum.exploreWithMe.participationRequest.model.ParticipationRequest;
+import ru.practicum.exploreWithMe.participationRequest.dto.ParticipationRequestDTO;
+import ru.practicum.exploreWithMe.participationRequest.dto.RequestMapper;
+import ru.practicum.exploreWithMe.participationRequest.model.Status;
+import ru.practicum.exploreWithMe.participationRequest.repository.ParticipationRequestsRepository;
 import ru.practicum.exploreWithMe.user.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,8 +62,13 @@ public class EventServiceImpl implements EventService {
 
 
     @Override
-    public List<EventFullDto> getAllPublished(String text, String[] categories, boolean paid, String rangeStart,
+    public List<EventFullDto> getAllPublished(String text, List<Long> categories, boolean paid, String rangeStart,
                                               String rangeEnd, String sort, boolean onlyAvailable, int from, int size) {
+        if (sort.equals("EVENT_DATE")) {
+            sort = "eventDate";
+        } else {
+            sort = "views";
+        }
         PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by(sort).ascending());
         List<EventFullDto> list =
                 filterByDate(eventRepository.getAllPublished(State.PUBLISHED.toString(), categories, paid, pageRequest)
@@ -140,17 +147,22 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventFullDto adminUpdate(long eventId, AdminUpdateEventRequest eventDto) {
+    public EventFullDto adminUpdate(long eventId, UpdateEventRequest eventDto) {
         checkEventId(eventId);
         Event event = eventMapper.toEvent(eventDto, eventId);
         Event eventOld = eventRepository.getReferenceById(eventId);
+        event.setRequestModeration(eventOld.isRequestModeration());
+        event.setLocation(eventOld.getLocation());
         event.setCreatedOn(eventOld.getCreatedOn());
         event.setInitiator(eventOld.getInitiator());
         event.setState(eventOld.getState());
         event.setViews(eventOld.getViews());
-        eventRepository.save(event);
-        if (eventOld.getState().equals("PUBLISHED"))
+        if (event.getState().equals("PUBLISHED")) {
+            event.setPublishedOn(eventOld.getPublishedOn());
+            eventRepository.save(event);
             return eventMapper.toEventFullDtoPublished(event);
+        }
+        eventRepository.save(event);
         return eventMapper.toEventFullDtoNotPublished(event);
     }
 
@@ -169,7 +181,7 @@ public class EventServiceImpl implements EventService {
         request.setStatus(Status.CONFIRMED.toString());
         requestsRepository.save(request);
         if (event.getParticipantLimit() == requestsRepository.getConfirmedRequests(eventId, Status.CONFIRMED.toString()))
-            requestsRepository.getAllByStatusAndEventId(eventId, Status.PENDING.toString())
+            requestsRepository.getAllByStatusAndEventId(Status.PENDING.toString(), eventId)
                     .forEach(req -> reject(userId, eventId, req.getId()));
         return RequestMapper.toDto(request);
     }
@@ -181,9 +193,40 @@ public class EventServiceImpl implements EventService {
         checkUserId(userId);
         checkRequestId(reqId);
         ParticipationRequest request = requestsRepository.getReferenceById(reqId);
-        request.setStatus(Status.CANCELED.toString());
+        request.setStatus(Status.REJECTED.toString());
         requestsRepository.save(request);
         return RequestMapper.toDto(request);
+    }
+
+    @Override
+    @Transactional
+    public EventFullDto publish(long eventId) {
+        Event event = eventRepository.getReferenceById(eventId);
+        checkBeforeChangeState(event);
+        if (event.getEventDate().isBefore(LocalDateTime.now().plusHours(1)))
+            throw new UpdateException("event will start in less than an hour");
+        event.setPublishedOn(LocalDateTime.now());
+        event.setState(State.PUBLISHED.toString());
+        eventRepository.save(event);
+        return eventMapper.toEventFullDtoPublished(event);
+    }
+
+    @Override
+    @Transactional
+    public EventFullDto adminReject(long eventId) {
+        Event event = eventRepository.getReferenceById(eventId);
+        checkBeforeChangeState(event);
+        event.setState(State.CANCELED.toString());
+        eventRepository.save(event);
+        return eventMapper.toEventFullDtoNotPublished(event);
+    }
+
+    @Override
+    public List<EventFullDto> getAllByAdmin(List<Long> users, List<String> states, List<Long> categories,
+                                            String rangeStart, String rangeEnd, int from, int size) {
+        PageRequest pageRequest = PageRequest.of(from / size, size);
+        return filterByDate(eventRepository.getAllAdmin(states, categories, users, pageRequest).toList(), rangeStart, rangeEnd)
+                .stream().map(eventMapper::toEventFullDtoPublished).collect(Collectors.toList());
     }
 
     private void checkDate(LocalDateTime time) {
@@ -196,7 +239,7 @@ public class EventServiceImpl implements EventService {
             throw new IncorrectParameterException("bad userId");
     }
 
-    private void checkEventId(long eventId) {
+    private void checkEventId(Long eventId) {
         if (!eventRepository.existsById(eventId))
             throw new IncorrectParameterException("bad eventId");
     }
@@ -217,6 +260,11 @@ public class EventServiceImpl implements EventService {
         LocalDateTime endTime = LocalDateTime.parse(end, dtf);
         return events.stream().filter(event -> event.getEventDate().isAfter(startTime))
                 .filter(event -> event.getEventDate().isBefore(endTime)).collect(Collectors.toList());
+    }
+
+    private void checkBeforeChangeState(Event event) {
+        if (!event.getState().equals(State.PENDING.toString()))
+            throw new UpdateException("Event is not pending");
     }
 
 }

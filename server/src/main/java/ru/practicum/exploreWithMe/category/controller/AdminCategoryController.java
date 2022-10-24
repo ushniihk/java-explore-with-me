@@ -3,7 +3,7 @@ package ru.practicum.exploreWithMe.category.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.exploreWithMe.category.model.CategoryDto;
+import ru.practicum.exploreWithMe.category.dto.CategoryDto;
 import ru.practicum.exploreWithMe.category.service.CategoryService;
 
 @RestController

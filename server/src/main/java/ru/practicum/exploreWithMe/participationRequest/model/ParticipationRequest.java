@@ -1,4 +1,4 @@
-package ru.practicum.exploreWithMe.participationRequest;
+package ru.practicum.exploreWithMe.participationRequest.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

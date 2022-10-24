@@ -1,9 +1,9 @@
-package ru.practicum.exploreWithMe.compilation.model;
+package ru.practicum.exploreWithMe.compilation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.exploreWithMe.event.model.EventShortDto;
+import ru.practicum.exploreWithMe.event.dto.EventShortDto;
 
 import java.util.List;
 

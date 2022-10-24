@@ -1,7 +1,8 @@
-package ru.practicum.exploreWithMe.participationRequest;
+package ru.practicum.exploreWithMe.participationRequest.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import ru.practicum.exploreWithMe.participationRequest.model.ParticipationRequest;
 
 import java.util.List;
 
@@ -13,7 +14,8 @@ public interface ParticipationRequestsRepository extends JpaRepository<Participa
 
     List<ParticipationRequest> getAllByRequesterId(long userId);
 
+    @Query(value = "select PR from ParticipationRequest PR where PR.eventId = ?1")
     List<ParticipationRequest> getAllByEventId(long eventId);
 
-    List<ParticipationRequest> getAllByStatusAndEventId(long eventId, String status);
+    List<ParticipationRequest> getAllByStatusAndEventId(String status, long eventId);
 }

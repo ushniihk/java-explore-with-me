@@ -3,12 +3,12 @@ package ru.practicum.exploreWithMe.event.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.exploreWithMe.event.model.EventFullDto;
-import ru.practicum.exploreWithMe.event.model.EventShortDto;
-import ru.practicum.exploreWithMe.event.model.NewEventDto;
-import ru.practicum.exploreWithMe.event.model.UpdateEventRequest;
+import ru.practicum.exploreWithMe.event.dto.EventFullDto;
+import ru.practicum.exploreWithMe.event.dto.EventShortDto;
+import ru.practicum.exploreWithMe.event.dto.NewEventDto;
+import ru.practicum.exploreWithMe.event.dto.UpdateEventRequest;
 import ru.practicum.exploreWithMe.event.service.EventService;
-import ru.practicum.exploreWithMe.participationRequest.ParticipationRequestDTO;
+import ru.practicum.exploreWithMe.participationRequest.dto.ParticipationRequestDTO;
 
 import java.util.List;
 
@@ -52,7 +52,8 @@ public class PrivateEventController {
     }
 
     @PatchMapping("/{userId}/events/{eventId}/requests/{reqId}/confirm")
-    public ParticipationRequestDTO confirm(@PathVariable long userId, @PathVariable long eventId, @PathVariable long reqId) {
+    public ParticipationRequestDTO confirm(@PathVariable long userId, @PathVariable long eventId,
+                                           @PathVariable long reqId) {
         return eventService.confirm(userId, eventId, reqId);
     }
 

@@ -3,7 +3,7 @@ package ru.practicum.exploreWithMe.compilation.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.exploreWithMe.compilation.model.CompilationDto;
+import ru.practicum.exploreWithMe.compilation.dto.CompilationDto;
 import ru.practicum.exploreWithMe.compilation.service.CompilationService;
 
 import java.util.List;
@@ -13,8 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Data
 public class PublicCompilationController {
-
-    CompilationService compilationService;
+    private final CompilationService compilationService;
 
     @GetMapping
     public List<CompilationDto> getAll(@RequestParam(required = false) boolean pinned,

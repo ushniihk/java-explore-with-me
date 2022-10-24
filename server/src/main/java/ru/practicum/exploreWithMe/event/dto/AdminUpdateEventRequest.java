@@ -1,9 +1,9 @@
-package ru.practicum.exploreWithMe.event.model;
+package ru.practicum.exploreWithMe.event.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.exploreWithMe.location.Location;
+import ru.practicum.exploreWithMe.location.dto.LocationDto;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +13,7 @@ public class AdminUpdateEventRequest {
     private long category;
     private String description;
     private String eventDate;
-    private Location location;
+    private LocationDto location;
     private boolean paid;
     private int participantLimit;
     private boolean requestModeration;

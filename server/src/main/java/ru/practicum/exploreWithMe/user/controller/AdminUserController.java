@@ -3,7 +3,7 @@ package ru.practicum.exploreWithMe.user.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.exploreWithMe.user.model.UserDto;
+import ru.practicum.exploreWithMe.user.dto.UserDto;
 import ru.practicum.exploreWithMe.user.service.UserService;
 
 import java.util.List;
@@ -17,9 +17,10 @@ public class AdminUserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserDto> getAll(@RequestParam(required = false, defaultValue = "0") int from,
+    public List<UserDto> getAll(@RequestParam List<Long> ids,
+                                @RequestParam(required = false, defaultValue = "0") int from,
                                 @RequestParam(required = false, defaultValue = "10") int size) {
-        return userService.getAll(from, size);
+        return userService.getAll(ids, from, size);
     }
 
     @PostMapping

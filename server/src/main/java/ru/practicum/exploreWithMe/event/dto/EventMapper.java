@@ -1,21 +1,16 @@
-package ru.practicum.exploreWithMe.event.model;
+package ru.practicum.exploreWithMe.event.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-import ru.practicum.exploreWithMe.category.model.CategoryDto;
-import ru.practicum.exploreWithMe.category.model.CategoryMapper;
+import ru.practicum.exploreWithMe.category.dto.CategoryMapper;
 import ru.practicum.exploreWithMe.category.repository.CategoryRepository;
 import ru.practicum.exploreWithMe.event.model.Event;
-import ru.practicum.exploreWithMe.location.Location;
-import ru.practicum.exploreWithMe.location.LocationDto;
-import ru.practicum.exploreWithMe.location.LocationMapper;
-import ru.practicum.exploreWithMe.location.LocationRepository;
-import ru.practicum.exploreWithMe.participationRequest.ParticipationRequest;
-import ru.practicum.exploreWithMe.participationRequest.ParticipationRequestsRepository;
-import ru.practicum.exploreWithMe.participationRequest.Status;
-import ru.practicum.exploreWithMe.user.model.UserMapper;
-import ru.practicum.exploreWithMe.user.model.UserShortDto;
+import ru.practicum.exploreWithMe.location.dto.LocationMapper;
+import ru.practicum.exploreWithMe.location.repository.LocationRepository;
+import ru.practicum.exploreWithMe.participationRequest.repository.ParticipationRequestsRepository;
+import ru.practicum.exploreWithMe.participationRequest.model.Status;
+import ru.practicum.exploreWithMe.user.dto.UserMapper;
 import ru.practicum.exploreWithMe.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
@@ -33,21 +28,7 @@ public class EventMapper {
     private final CategoryRepository categoryRepository;
     private final ParticipationRequestsRepository prRepository;
 
-/*    public NewEventDto toNewEventDto(Event event) {
-        return new NewEventDto(
-                event.getAnnotation(),
-                event.getCategory(),
-                event.getDescription(),
-                event.getEventDate().format(dtf),
-                LocationMapper.toLocationDto(locationRepository.getReferenceById(event.getLocation())),
-                event.isPaid(),
-                event.getParticipantLimit(),
-                event.isRequestModeration(),
-                event.getTitle()
-        );
-    }*/
-
-    public Event toEvent(UpdateEventRequest eventDto){
+    public Event toEvent(UpdateEventRequest eventDto) {
         return new Event(
                 eventDto.getEventId(),
                 eventDto.getAnnotation(),
@@ -61,6 +42,7 @@ public class EventMapper {
     }
 
     public Event toEvent(NewEventDto eventDto) {
+
         return new Event(
                 eventDto.getAnnotation(),
                 eventDto.getCategory(),
@@ -75,17 +57,15 @@ public class EventMapper {
         );
     }
 
-    public Event toEvent(AdminUpdateEventRequest eventDto, long eventId) {
+    public Event toEvent(UpdateEventRequest eventDto, long eventId) {
         return new Event(
+                eventId,
                 eventDto.getAnnotation(),
                 eventDto.getCategory(),
                 eventDto.getDescription(),
                 LocalDateTime.parse(eventDto.getEventDate(), dtf),
-                locationRepository.getLocationByLatAndLon(
-                        eventDto.getLocation().getLat(), eventDto.getLocation().getLon()).getId(),
                 eventDto.isPaid(),
                 eventDto.getParticipantLimit(),
-                eventDto.isRequestModeration(),
                 eventDto.getTitle()
         );
     }

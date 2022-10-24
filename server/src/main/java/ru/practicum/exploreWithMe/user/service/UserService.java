@@ -1,11 +1,11 @@
 package ru.practicum.exploreWithMe.user.service;
 
-import ru.practicum.exploreWithMe.user.model.UserDto;
+import ru.practicum.exploreWithMe.user.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    List<UserDto> getAll(int from, int size);
+    List<UserDto> getAll(List<Long> ids, int from, int size);
 
     UserDto get(long userId);
 
@@ -13,5 +13,4 @@ public interface UserService {
 
     void delete(long userId);
 
-    UserDto update(long userId, UserDto userDto);
 }
