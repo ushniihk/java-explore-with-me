@@ -1,6 +1,9 @@
 package ru.practicum.exploreWithMe.hit;
 
+import java.util.List;
+
 public interface HitService {
     void add(HitDto hitDto);
-    Stats get(String start, String end, String[]uris, boolean unique);
+
+    List<ViewStatDto> get(String start, String end, List<String> uris, boolean unique);
 }
