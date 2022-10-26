@@ -1,10 +1,12 @@
-package ru.practicum.exploreWithMe.hit;
+package ru.practicum.exploreWithMe.hit.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.exploreWithMe.hit.dto.HitDto;
+import ru.practicum.exploreWithMe.hit.dto.ViewStatDto;
+import ru.practicum.exploreWithMe.hit.service.HitService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -15,8 +17,7 @@ public class HitController {
     private final HitService hitService;
 
     @PostMapping("/hit")
-    public void add(@RequestBody HitDto hitDto, HttpServletRequest request) {
-        // eventClient.addHit(request);
+    public void add(@RequestBody HitDto hitDto) {
         hitService.add(hitDto);
     }
 

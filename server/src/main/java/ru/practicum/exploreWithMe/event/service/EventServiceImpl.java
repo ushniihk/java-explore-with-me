@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.practicum.exploreWithMe.event.State;
+import ru.practicum.exploreWithMe.event.model.State;
 import ru.practicum.exploreWithMe.event.dto.*;
 import ru.practicum.exploreWithMe.event.model.*;
 import ru.practicum.exploreWithMe.event.repository.EventRepository;

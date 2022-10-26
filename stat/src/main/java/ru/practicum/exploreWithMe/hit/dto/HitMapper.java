@@ -1,8 +1,10 @@
-package ru.practicum.exploreWithMe.hit;
+package ru.practicum.exploreWithMe.hit.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Component;
+import ru.practicum.exploreWithMe.hit.model.Hit;
+import ru.practicum.exploreWithMe.repository.HitRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

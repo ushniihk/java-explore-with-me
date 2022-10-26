@@ -1,4 +1,4 @@
-package ru.practicum.exploreWithMe.hit;
+package ru.practicum.exploreWithMe.hit.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

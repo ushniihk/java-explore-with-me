@@ -1,4 +1,7 @@
-package ru.practicum.exploreWithMe.hit;
+package ru.practicum.exploreWithMe.hit.service;
+
+import ru.practicum.exploreWithMe.hit.dto.HitDto;
+import ru.practicum.exploreWithMe.hit.dto.ViewStatDto;
 
 import java.util.List;
 

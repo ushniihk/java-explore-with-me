@@ -56,9 +56,9 @@ create table if not exists participation_requests
     created      timestamp with time zone not null,
     EVENT_ID     bigint                   not null,
     REQUESTER_ID bigint                   not null,
-    status       varchar                  not null/*,
+    status       varchar                  not null,
     CONSTRAINT fk_request_for_event FOREIGN KEY (EVENT_ID) REFERENCES events (id),
-    CONSTRAINT fk_request_for_user FOREIGN KEY (REQUESTER_ID) REFERENCES users (id)*/
+    CONSTRAINT fk_request_for_user FOREIGN KEY (REQUESTER_ID) REFERENCES users (id)
 );
 
 create table if not exists events_compilation
@@ -66,8 +66,6 @@ create table if not exists events_compilation
     id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     EVENT_ID       bigint not null,
     compilation_id bigint not null
-/*    CONSTRAINT fk_event_id_for_event FOREIGN KEY (EVENT_ID) REFERENCES events (id),
-    CONSTRAINT fk_compilation_for_event FOREIGN KEY (COMPILATION_ID) REFERENCES compilations (id)*/
 );
 
 create table if not exists compilations
