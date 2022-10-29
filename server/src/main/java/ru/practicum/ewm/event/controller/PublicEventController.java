@@ -20,18 +20,18 @@ public class PublicEventController {
     private final EventClient eventClient;
 
     @GetMapping
-    public List<EventFullDto> getAll(@RequestParam String text, @RequestParam List<Long>categories,
-                                    @RequestParam boolean paid, @RequestParam String rangeStart,
-                                    @RequestParam String rangeEnd, @RequestParam String sort,
-                                    @RequestParam(defaultValue = "false") boolean onlyAvailable,
-                                    @RequestParam(required = false, defaultValue = "0") int from,
-                                    @RequestParam(required = false, defaultValue = "10") int size, HttpServletRequest request){
+    public List<EventFullDto> getAll(@RequestParam String text, @RequestParam List<Long> categories,
+                                     @RequestParam boolean paid, @RequestParam String rangeStart,
+                                     @RequestParam String rangeEnd, @RequestParam String sort,
+                                     @RequestParam(defaultValue = "false") boolean onlyAvailable,
+                                     @RequestParam(required = false, defaultValue = "0") int from,
+                                     @RequestParam(required = false, defaultValue = "10") int size, HttpServletRequest request) {
         eventClient.addHit(request);
         return eventService.getAllPublished(text, categories, paid, rangeStart, rangeEnd, sort, onlyAvailable, from, size);
     }
 
     @GetMapping("/{eventId}")
-    public EventFullDto get(@PathVariable long eventId, HttpServletRequest request){
+    public EventFullDto get(@PathVariable long eventId, HttpServletRequest request) {
         eventClient.addHit(request);
         return eventService.getPublished(eventId);
     }
