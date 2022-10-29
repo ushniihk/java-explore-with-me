@@ -17,7 +17,7 @@ public class EventClient extends BaseClient {
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
-    public EventClient(@Value("${explore-with-me-stat.url}") String serverUrl, RestTemplateBuilder builder) {
+    public EventClient(@Value("${EXPLORE_WITH_ME_URL}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
                         .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))

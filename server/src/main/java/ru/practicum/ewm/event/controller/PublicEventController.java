@@ -25,7 +25,8 @@ public class PublicEventController {
                                      @RequestParam String rangeEnd, @RequestParam String sort,
                                      @RequestParam(defaultValue = "false") boolean onlyAvailable,
                                      @RequestParam(required = false, defaultValue = "0") int from,
-                                     @RequestParam(required = false, defaultValue = "10") int size, HttpServletRequest request) {
+                                     @RequestParam(required = false, defaultValue = "10") int size,
+                                     HttpServletRequest request) {
         eventClient.addHit(request);
         return eventService.getAllPublished(text, categories, paid, rangeStart, rangeEnd, sort, onlyAvailable, from, size);
     }

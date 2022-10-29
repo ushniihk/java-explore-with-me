@@ -8,7 +8,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
 public class WebClientConfig {
-    @Value("${explore-with-me-stat.url}")
+    @Value("${EXPLORE_WITH_ME_URL}")
     private String serviceUrl;
 
 
