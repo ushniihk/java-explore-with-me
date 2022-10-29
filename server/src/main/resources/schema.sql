@@ -16,15 +16,15 @@ create table if not exists locations
 create table if not exists users
 (
     id    BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    email varchar(30) not null,
-    name  varchar(30),
+    email varchar not null,
+    name  varchar,
     UNIQUE (email)
 );
 
 create table if not exists categories
 (
     id   BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name varchar(69) not null,
+    name varchar not null,
     UNIQUE (name)
 );
 
@@ -42,8 +42,8 @@ create table if not exists events
     participant_limit  bigint,
     published_on       TIMESTAMP WITHOUT TIME ZONE,
     request_moderation boolean,
-    state              varchar(300),
-    title              varchar(300),
+    state              varchar,
+    title              varchar(120),
     VIEWS              bigint,
     CONSTRAINT fk_location FOREIGN KEY (location) REFERENCES locations (id),
     CONSTRAINT fk_category FOREIGN KEY (category) REFERENCES categories (id),
@@ -72,7 +72,7 @@ create table if not exists compilations
 (
     id     BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     pinned boolean,
-    title  varchar(256)
+    title  varchar
 );
 
 
