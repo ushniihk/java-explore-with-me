@@ -1,6 +1,5 @@
 package ru.practicum.ewm.category.service;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,30 +11,33 @@ import ru.practicum.ewm.exceptions.CreatingException;
 import ru.practicum.ewm.exceptions.NotFoundParameterException;
 import ru.practicum.ewm.exceptions.UpdateException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Data
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public CategoryDto add(CategoryDto categoryDto) {
         checkForCreate(categoryDto);
         return CategoryMapper.toCategoryDto(categoryRepository.save(CategoryMapper.toCategory(categoryDto)));
     }
 
     @Override
+    @Transactional
     public void delete(long catId) {
         if (!categoryRepository.existsById(catId))
-            throw new UpdateException("sorry, but category with this id is not exist");
+            throw new UpdateException("sorry, but category with this id does not exist");
         categoryRepository.deleteById(catId);
     }
 
     @Override
+    @Transactional
     public CategoryDto update(CategoryDto categoryDto) {
         checkForUpdate(categoryDto);
         return CategoryMapper.toCategoryDto(categoryRepository.save(CategoryMapper.toCategory(categoryDto)));

@@ -48,6 +48,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
     }
 
     @Override
+    @Transactional
     public ParticipationRequestDTO cancel(long userId, long requestId) {
         checkUserId(userId);
         if (!participationRequestsRepository.existsById(requestId))
@@ -62,7 +63,8 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
             throw new UpdateException("you can't make request for your own event");
         if (!event.getState().equals("PUBLISHED"))
             throw new UpdateException("event has not been published yet");
-        if (event.getParticipantLimit() == participationRequestsRepository.getConfirmedRequests(event.getId(), "CONFIRMED"))
+        if (event.getParticipantLimit() == participationRequestsRepository
+                .countParticipationRequestByEventIdAndStatus(event.getId(), "CONFIRMED"))
             throw new UpdateException("there are no free seats for the event");
         if (participationRequestsRepository.existsByRequesterIdAndEventId(userId, event.getId()))
             throw new UpdateException("request has been already exist");

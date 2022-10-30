@@ -38,12 +38,14 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void delete(long compId) {
         checkCompId(compId);
         compilationRepository.deleteById(compId);
     }
 
     @Override
+    @Transactional
     public void deleteEvent(long compId, long eventId) {
         checkCompId(compId);
         Optional<EventCompilation> ec = eventCompilationRepository.getByEventIdAndCompilationId(compId, eventId);
@@ -53,6 +55,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void addEvent(long compId, long eventId) {
         checkCompId(compId);
         if (eventCompilationRepository.existsByCompilationIdAndEventId(compId, eventId))
@@ -61,6 +64,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void pin(long compId) {
         checkCompId(compId);
         Compilation compilation = compilationRepository.getReferenceById(compId);
@@ -71,6 +75,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void unpin(long compId) {
         checkCompId(compId);
         Compilation compilation = compilationRepository.getReferenceById(compId);
@@ -89,7 +94,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public List<CompilationDto> getAll(boolean pinned, int from, int size) {
         PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("id").ascending());
-        return compilationRepository.findAll(pinned, pageRequest).stream()
+        return compilationRepository.findAllByPinned(pinned, pageRequest).stream()
                 .map(compilationMapper::toCompilationDto).collect(Collectors.toList());
     }
 

@@ -1,20 +1,16 @@
 package ru.practicum.ewm.compilation.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.ewm.compilation.model.Compilation;
-import ru.practicum.ewm.compilation.repository.CompilationRepository;
 import ru.practicum.ewm.event.dto.EventMapper;
 import ru.practicum.ewm.event.repository.EventRepository;
 
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-@Data
+@RequiredArgsConstructor
 @Component
 public class CompilationMapper {
-    private final CompilationRepository compilationRepository;
     private final EventMapper eventMapper;
     private final EventRepository eventRepository;
 

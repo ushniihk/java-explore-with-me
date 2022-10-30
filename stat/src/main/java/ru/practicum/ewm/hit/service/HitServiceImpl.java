@@ -3,11 +3,12 @@ package ru.practicum.ewm.hit.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.hit.model.Hit;
-import ru.practicum.ewm.repository.HitRepository;
+import ru.practicum.ewm.hit.repository.HitRepository;
 import ru.practicum.ewm.hit.dto.HitDto;
 import ru.practicum.ewm.hit.dto.HitMapper;
 import ru.practicum.ewm.hit.dto.ViewStatDto;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class HitServiceImpl implements HitService {
     private final HitMapper hitMapper;
 
     @Override
+    @Transactional
     public void add(HitDto hitDto) {
         hitRepository.save(hitMapper.toHit(hitDto));
     }
@@ -32,9 +34,9 @@ public class HitServiceImpl implements HitService {
     public List<ViewStatDto> get(String start, String end, List<String> uris, boolean unique) {
         List<Hit> views;
         if (uris != null) {
-            views = hitRepository.geAllByTimeAndUri(LocalDateTime.parse(start, dtf), LocalDateTime.parse(end, dtf), uris);
+            views = hitRepository.getHitsByTimestampAfterAndTimestampBeforeAndUriIn(LocalDateTime.parse(start, dtf), LocalDateTime.parse(end, dtf), uris);
         } else {
-            views = hitRepository.geAllByTime(LocalDateTime.parse(start, dtf), LocalDateTime.parse(end, dtf));
+            views = hitRepository.getHitsByTimestampAfterAndTimestampBefore(LocalDateTime.parse(start, dtf), LocalDateTime.parse(end, dtf));
         }
 
         if (unique)

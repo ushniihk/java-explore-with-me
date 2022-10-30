@@ -10,12 +10,13 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 public class WebClientConfig {
     @Value("${EXPLORE_WITH_ME_URL}")
     private String serviceUrl;
+    private static final String API_PREFIX = "/hit";
 
 
     @Bean
     public EventClient eventClient(RestTemplateBuilder builder) {
         RestTemplateBuilder restTemplate = builder
-                .uriTemplateHandler(new DefaultUriBuilderFactory(serviceUrl));
-        return new EventClient(serviceUrl, restTemplate);
+                .uriTemplateHandler(new DefaultUriBuilderFactory(serviceUrl + API_PREFIX));
+        return new EventClient(restTemplate);
     }
 }

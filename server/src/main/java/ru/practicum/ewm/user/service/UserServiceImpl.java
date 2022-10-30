@@ -10,6 +10,7 @@ import ru.practicum.ewm.user.dto.UserDto;
 import ru.practicum.ewm.user.dto.UserMapper;
 import ru.practicum.ewm.user.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getAll(List<Long> ids, int from, int size) {
         PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("id").ascending());
-        return userRepository.findAllByIds(ids, pageRequest).stream().map(UserMapper::toUserDto).collect(Collectors.toList());
+        return userRepository.getUsersByIdIn(ids, pageRequest).stream().map(UserMapper::toUserDto).collect(Collectors.toList());
     }
 
     @Override
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto add(UserDto userDto) {
         checkEmail(userDto);
         userRepository.save(UserMapper.toUser(userDto));
@@ -41,6 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(long userId) {
         userRepository.deleteById(userId);
     }
