@@ -75,4 +75,15 @@ create table if not exists compilations
     title  varchar
 );
 
+create table if not exists comments
+(
+    ID       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    MESSAGE  varchar(300),
+    EVENT_ID bigint                   not null,
+    USER_ID  bigint                   not null,
+    CREATED  timestamp with time zone not null,
+    CONSTRAINT fk_comments_for_event FOREIGN KEY (EVENT_ID) REFERENCES events (id),
+    CONSTRAINT fk_comments_for_user FOREIGN KEY (USER_ID) REFERENCES users (id)
+);
+
 
