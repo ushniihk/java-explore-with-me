@@ -27,7 +27,7 @@ public class EventClient extends BaseClient {
     }
 
     public ResponseEntity<Object> addHit(HttpServletRequest request) {
-        HitDto hitDto = new HitDto("server", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now().format(dtf));
+        HitDto hitDto = new HitDto("ewm-service", request.getRequestURI(), request.getRemoteAddr(), LocalDateTime.now().format(dtf));
         return post("", hitDto);
     }
 
