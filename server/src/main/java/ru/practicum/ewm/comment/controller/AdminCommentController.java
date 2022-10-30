@@ -1,6 +1,5 @@
 package ru.practicum.ewm.comment.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +10,6 @@ import ru.practicum.ewm.comment.service.CommentService;
 @RestController
 @RequestMapping(path = "/admin/comments")
 @RequiredArgsConstructor
-@Data
 public class AdminCommentController {
     private final CommentService commentService;
 

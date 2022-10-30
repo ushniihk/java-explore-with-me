@@ -1,6 +1,5 @@
 package ru.practicum.ewm.comment.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.comment.dto.CommentDto;
@@ -12,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
-@Data
 public class PrivateCommentController {
     private final CommentService commentService;
 
@@ -27,12 +25,14 @@ public class PrivateCommentController {
     }
 
     @PatchMapping("/{userId}/events/{eventId}/comments")
-    public CommentDto update(@PathVariable long userId, @PathVariable long eventId, @RequestBody CommentDto commentDto){
+    public CommentDto update(@PathVariable long userId, @PathVariable long eventId, @RequestBody CommentDto commentDto) {
         return commentService.update(userId, eventId, commentDto);
     }
 
     @GetMapping("/{userId}/comments")
-    public List<CommentDto> getAllByUser(@PathVariable long userId){
-        return commentService.getAllByUser(userId);
+    public List<CommentDto> getAllByUser(@PathVariable long userId,
+                                         @RequestParam(required = false, defaultValue = "0") int from,
+                                         @RequestParam(required = false, defaultValue = "10") int size) {
+        return commentService.getAllByUser(userId, from, size);
     }
 }

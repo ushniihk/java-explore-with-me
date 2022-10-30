@@ -1,7 +1,6 @@
 package ru.practicum.ewm.comment.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.ewm.comment.model.Comment;
 import ru.practicum.ewm.event.dto.EventMapper;
@@ -11,8 +10,7 @@ import ru.practicum.ewm.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@Data
+@RequiredArgsConstructor
 @Component
 public class CommentMapper {
     private final UserRepository userRepository;

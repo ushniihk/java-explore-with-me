@@ -1,6 +1,5 @@
 package ru.practicum.ewm.comment.service;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import ru.practicum.ewm.comment.dto.CommentDto;
 import ru.practicum.ewm.comment.dto.NewCommentDto;
 
@@ -13,12 +12,11 @@ public interface CommentService {
 
     CommentDto update(long userId, long eventId, CommentDto commentDto);
 
-    List<CommentDto> getAllByUser(long userId);
+    List<CommentDto> getAllByUser(long userId, int from, int size);
 
-    List<CommentDto> getAllByEvent(long eventId);
+    List<CommentDto> getAllByEvent(long eventId, int from, int size);
 
     CommentDto get(long eventId, long commId);
 
-    void delete(long commId);
     void deleteByAdmin(long commId);
 }

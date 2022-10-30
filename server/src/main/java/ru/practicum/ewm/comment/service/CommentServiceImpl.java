@@ -1,6 +1,8 @@
 package ru.practicum.ewm.comment.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.comment.dto.CommentDto;
 import ru.practicum.ewm.comment.dto.CommentMapper;
@@ -14,6 +16,7 @@ import ru.practicum.ewm.user.repository.UserRepository;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +37,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void delete(long userId, long eventId, long commId) {
         checkUserId(userId);
         checkEventId(eventId);
@@ -47,54 +51,62 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentDto update(long userId, long eventId, CommentDto commentDto) {
         checkUserId(userId);
         checkEventId(eventId);
-        return null;
+        if (commentDto.getUser().getId() != userId)
+            throw new IncorrectParameterException("you can't delete someone else's comment");
+        if (commentDto.getEvent().getId() != eventId)
+            throw new IncorrectParameterException("this comment from another event");
+        return commentMapper.toCommentDto(
+                commentRepository.save(commentMapper.toComment(commentDto)));
     }
 
     @Override
-    public List<CommentDto> getAllByUser(long userId) {
+    public List<CommentDto> getAllByUser(long userId, int from, int size) {
         checkUserId(userId);
-        commentRepository.getA
-        return null;
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        return commentRepository.getAllByUserId(userId, pageRequest).stream()
+                .map(commentMapper::toCommentDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<CommentDto> getAllByEvent(long eventId) {
+    public List<CommentDto> getAllByEvent(long eventId, int from, int size) {
         checkEventId(eventId);
-        return null;
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        return commentRepository.getAllByEventId(eventId, pageRequest).stream()
+                .map(commentMapper::toCommentDto).collect(Collectors.toList());
     }
 
     @Override
     public CommentDto get(long eventId, long commId) {
         checkEventId(eventId);
         checkCommId(commId);
-        return null;
+        Comment comment = commentRepository.getReferenceById(commId);
+        if (comment.getEventId() != eventId)
+            throw new IncorrectParameterException("Event doesn't have this comment");
+        return commentMapper.toCommentDto(comment);
     }
 
     @Override
-    public void delete(long commId) {
+    @Transactional
+    public void deleteByAdmin(long commId) {
         checkCommId(commId);
         commentRepository.deleteById(commId);
     }
 
-    @Override
-    public void deleteByAdmin(long commId) {
-
-    }
-
-    void checkCommId(long commId) {
+    private void checkCommId(long commId) {
         if (!commentRepository.existsById(commId))
             throw new IncorrectParameterException("bad commId");
     }
 
-    void checkEventId(long eventId) {
+    private void checkEventId(long eventId) {
         if (!eventRepository.existsById(eventId))
             throw new IncorrectParameterException("bad eventId");
     }
 
-    void checkUserId(long userId) {
+    private void checkUserId(long userId) {
         if (!userRepository.existsById(userId))
             throw new IncorrectParameterException("bad userId");
     }

@@ -2,7 +2,6 @@ package ru.practicum.ewm.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import ru.practicum.ewm.event.dto.EventShortDto;
 import ru.practicum.ewm.user.dto.UserShortDto;
 
@@ -10,7 +9,6 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class CommentDto {
     @Size(max = 300)
     private String message;

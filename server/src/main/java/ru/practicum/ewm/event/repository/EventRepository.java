@@ -12,9 +12,6 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> getAllByInitiator(long userId, PageRequest pageRequest);
 
-    @Query(value = "select e from Event e where e.id = ?1")
-    Event getReferenceById(long eventId);
-
     @Query(value = "select e from Event e where e.state = ?1 and e.category in (?2) and e.paid = ?3")
     Page<Event> getAllPublished(String published, List<Long> categories, boolean paid, PageRequest pageRequest);
 

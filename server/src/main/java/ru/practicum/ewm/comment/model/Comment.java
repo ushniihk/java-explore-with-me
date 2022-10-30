@@ -1,14 +1,14 @@
 package ru.practicum.ewm.comment.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
 @NoArgsConstructor
+@Getter
 @AllArgsConstructor
 @Table(name = "comments")
 @Entity
