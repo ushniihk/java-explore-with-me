@@ -1,13 +1,13 @@
 package ru.practicum.ewm.hit.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "HITS")

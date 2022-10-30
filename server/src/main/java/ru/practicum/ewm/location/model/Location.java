@@ -1,12 +1,12 @@
 package ru.practicum.ewm.location.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "locations")

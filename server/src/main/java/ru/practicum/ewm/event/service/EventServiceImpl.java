@@ -71,7 +71,7 @@ public class EventServiceImpl implements EventService {
         }
         PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by(sort).ascending());
         List<EventFullDto> list =
-                filterByDate(eventRepository.getAllPublished(State.PUBLISHED.toString(), categories, paid, pageRequest)
+                filterByDate(eventRepository.getEventByStateAndCategoryInAndPaid(State.PUBLISHED.toString(), categories, paid, pageRequest)
                         .stream().collect(Collectors.toList()), rangeStart, rangeEnd).stream()
                         .filter(event -> event.getAnnotation().toLowerCase().contains(text.toLowerCase())
                                 || event.getDescription().toLowerCase().contains(text.toLowerCase()))
@@ -173,14 +173,16 @@ public class EventServiceImpl implements EventService {
         checkRequestId(reqId);
         checkEventId(eventId);
         Event event = eventRepository.getReferenceById(eventId);
-        if (event.getParticipantLimit() == requestsRepository.getConfirmedRequests(eventId, Status.CONFIRMED.toString()))
+        if (event.getParticipantLimit() == requestsRepository
+                .countParticipationRequestByEventIdAndStatus(eventId, Status.CONFIRMED.toString()))
             throw new UpdateException("all seats are occupied");
         ParticipationRequest request = requestsRepository.getReferenceById(reqId);
         if (request.getStatus().equals(Status.CONFIRMED.toString()))
             throw new UpdateException("request has already been confirmed");
         request.setStatus(Status.CONFIRMED.toString());
         requestsRepository.save(request);
-        if (event.getParticipantLimit() == requestsRepository.getConfirmedRequests(eventId, Status.CONFIRMED.toString()))
+        if (event.getParticipantLimit() == requestsRepository
+                .countParticipationRequestByEventIdAndStatus(eventId, Status.CONFIRMED.toString()))
             requestsRepository.getAllByStatusAndEventId(Status.PENDING.toString(), eventId)
                     .forEach(req -> reject(userId, eventId, req.getId()));
         return RequestMapper.toDto(request);
@@ -225,7 +227,7 @@ public class EventServiceImpl implements EventService {
     public List<EventFullDto> getAllByAdmin(List<Long> users, List<String> states, List<Long> categories,
                                             String rangeStart, String rangeEnd, int from, int size) {
         PageRequest pageRequest = PageRequest.of(from / size, size);
-        return filterByDate(eventRepository.getAllAdmin(states, categories, users, pageRequest).toList(), rangeStart, rangeEnd)
+        return filterByDate(eventRepository.getEventsByStateInAndCategoryInAndInitiatorIn(states, categories, users, pageRequest).toList(), rangeStart, rangeEnd)
                 .stream().map(eventMapper::toEventFullDtoPublished).collect(Collectors.toList());
     }
 

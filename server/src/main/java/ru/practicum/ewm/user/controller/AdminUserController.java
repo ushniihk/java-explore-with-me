@@ -1,6 +1,5 @@
 package ru.practicum.ewm.user.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.user.dto.UserDto;
@@ -11,7 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/admin/users")
 @RequiredArgsConstructor
-@Data
 public class AdminUserController {
 
     private final UserService userService;
