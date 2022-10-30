@@ -13,7 +13,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> getAllByInitiator(long userId, PageRequest pageRequest);
 
     Page<Event> getEventByStateAndCategoryInAndPaid(String published, List<Long> categories, boolean paid, PageRequest pageRequest);
->>>>>> develop
 
     @Query(value = "select e from Event e join EventCompilation ec on e.id = ec.eventId " +
             "where ec.compilationId = ?1")
