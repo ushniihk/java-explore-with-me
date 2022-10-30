@@ -15,12 +15,12 @@ public class PublicCommentController {
 
     @GetMapping("/{eventId}")
     public List<CommentDto> getAllByEvent(@PathVariable long eventId, @RequestParam(required = false, defaultValue = "0") int from,
-                                          @RequestParam(required = false, defaultValue = "10") int size){
+                                          @RequestParam(required = false, defaultValue = "10") int size) {
         return commentService.getAllByEvent(eventId, from, size);
     }
 
     @GetMapping("/{eventId}/{commId}")
-    public CommentDto get(@PathVariable long eventId, @PathVariable long commId){
+    public CommentDto get(@PathVariable long eventId, @PathVariable long commId) {
         return commentService.get(eventId, commId);
     }
 

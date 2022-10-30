@@ -7,6 +7,7 @@ import ru.practicum.ewm.user.dto.UserShortDto;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 public class CommentDto {
