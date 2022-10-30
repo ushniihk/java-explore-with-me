@@ -1,6 +1,5 @@
 package ru.practicum.ewm.compilation.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.compilation.dto.CompilationDto;
@@ -10,7 +9,6 @@ import ru.practicum.ewm.compilation.service.CompilationService;
 @RestController
 @RequestMapping(path = "/admin/compilations")
 @RequiredArgsConstructor
-@Data
 public class AdminCompilationController {
     private final CompilationService compilationService;
 

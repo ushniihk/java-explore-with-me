@@ -1,7 +1,6 @@
 package ru.practicum.ewm.event.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.practicum.ewm.category.dto.CategoryMapper;
 import ru.practicum.ewm.category.repository.CategoryRepository;
@@ -16,12 +15,11 @@ import ru.practicum.ewm.user.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@AllArgsConstructor
-@Data
+@RequiredArgsConstructor
 @Component
 public class EventMapper {
 
-    private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final LocationRepository locationRepository;
     private final UserRepository userRepository;
@@ -74,7 +72,7 @@ public class EventMapper {
         return new EventFullDto(
                 event.getAnnotation(),
                 CategoryMapper.toCategoryDto(categoryRepository.getReferenceById(event.getCategory())),
-                prRepository.getConfirmedRequests(event.getId(), Status.CONFIRMED.toString()),
+                prRepository.countParticipationRequestByEventIdAndStatus(event.getId(), Status.CONFIRMED.toString()),
                 dtf.format(event.getCreatedOn()),
                 event.getDescription(),
                 dtf.format(event.getEventDate()),
@@ -94,7 +92,7 @@ public class EventMapper {
         return new EventFullDto(
                 event.getAnnotation(),
                 CategoryMapper.toCategoryDto(categoryRepository.getReferenceById(event.getCategory())),
-                prRepository.getConfirmedRequests(event.getId(), Status.CONFIRMED.toString()),
+                prRepository.countParticipationRequestByEventIdAndStatus(event.getId(), Status.CONFIRMED.toString()),
                 dtf.format(event.getCreatedOn()),
                 event.getDescription(),
                 dtf.format(event.getEventDate()),
@@ -115,7 +113,7 @@ public class EventMapper {
         return new EventShortDto(
                 event.getAnnotation(),
                 CategoryMapper.toCategoryDto(categoryRepository.getReferenceById(event.getCategory())),
-                prRepository.getConfirmedRequests(event.getId(), Status.CONFIRMED.toString()),
+                prRepository.countParticipationRequestByEventIdAndStatus(event.getId(), Status.CONFIRMED.toString()),
                 dtf.format(event.getEventDate()),
                 event.getId(),
                 UserMapper.toUserShortDto(userRepository.getReferenceById(event.getInitiator())),

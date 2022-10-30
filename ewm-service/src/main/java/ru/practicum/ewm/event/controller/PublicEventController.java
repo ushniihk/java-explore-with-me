@@ -1,6 +1,5 @@
 package ru.practicum.ewm.event.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.client.EventClient;
@@ -13,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/events")
 @RequiredArgsConstructor
-@Data
 public class PublicEventController {
 
     private final EventService eventService;

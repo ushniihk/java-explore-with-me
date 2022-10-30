@@ -1,6 +1,5 @@
 package ru.practicum.ewm.participationRequest.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.participationRequest.dto.ParticipationRequestDTO;
@@ -11,7 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
-@Data
 public class PrivateRequestController {
 
     private final ParticipationRequestService service;

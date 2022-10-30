@@ -1,6 +1,5 @@
 package ru.practicum.ewm.hit.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.hit.dto.HitDto;
@@ -12,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "")
 @RequiredArgsConstructor
-@Data
 public class HitController {
     private final HitService hitService;
 
