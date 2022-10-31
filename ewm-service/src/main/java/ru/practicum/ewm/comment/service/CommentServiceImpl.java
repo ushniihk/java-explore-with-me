@@ -107,7 +107,8 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentDto> findByText(String text, int from, int size) {
         PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
         return commentRepository.findAllByMessageContainsIgnoreCase(text, pageRequest).stream()
-                .map(commentMapper::toCommentDto).collect(Collectors.toList());    }
+                .map(commentMapper::toCommentDto).collect(Collectors.toList());
+    }
 
     private void checkCommId(long commId) {
         if (!commentRepository.existsById(commId))

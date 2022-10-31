@@ -21,6 +21,7 @@ public interface CommentService {
     void deleteByAdmin(long commId);
 
     List<CommentDto> getAll(int from, int size);
+
     List<CommentDto> findByText(String text, int from, int size);
 
 
