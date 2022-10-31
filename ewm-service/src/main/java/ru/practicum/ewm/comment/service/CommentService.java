@@ -19,4 +19,9 @@ public interface CommentService {
     CommentDto get(long eventId, long commId);
 
     void deleteByAdmin(long commId);
+
+    List<CommentDto> getAll(int from, int size);
+    List<CommentDto> findByText(String text, int from, int size);
+
+
 }

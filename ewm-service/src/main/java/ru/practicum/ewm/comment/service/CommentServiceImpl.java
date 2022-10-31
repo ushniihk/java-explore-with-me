@@ -56,7 +56,7 @@ public class CommentServiceImpl implements CommentService {
         checkUserId(userId);
         checkEventId(eventId);
         if (commentDto.getUser().getId() != userId)
-            throw new IncorrectParameterException("you can't delete someone else's comment");
+            throw new IncorrectParameterException("you can't update someone else's comment");
         if (commentDto.getEvent().getId() != eventId)
             throw new IncorrectParameterException("this comment from another event");
         return commentMapper.toCommentDto(
@@ -95,6 +95,19 @@ public class CommentServiceImpl implements CommentService {
         checkCommId(commId);
         commentRepository.deleteById(commId);
     }
+
+    @Override
+    public List<CommentDto> getAll(int from, int size) {
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        return commentRepository.findAll(pageRequest).stream()
+                .map(commentMapper::toCommentDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CommentDto> findByText(String text, int from, int size) {
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        return commentRepository.findAllByMessageContainsIgnoreCase(text, pageRequest).stream()
+                .map(commentMapper::toCommentDto).collect(Collectors.toList());    }
 
     private void checkCommId(long commId) {
         if (!commentRepository.existsById(commId))

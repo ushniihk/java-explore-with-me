@@ -10,5 +10,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Page<Comment> getAllByUserId(long userId, PageRequest pageRequest);
 
     Page<Comment> getAllByEventId(long eventId, PageRequest pageRequest);
+    Page<Comment> findAllByMessageContainsIgnoreCase(String text, PageRequest pageRequest);
+
 
 }

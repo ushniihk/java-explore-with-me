@@ -9,27 +9,27 @@ import ru.practicum.ewm.comment.service.CommentService;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping(path = "/users/{userId}")
 @RequiredArgsConstructor
 public class PrivateCommentController {
     private final CommentService commentService;
 
-    @PostMapping("/{userId}/events/{eventId}/comments")
+    @PostMapping("/events/{eventId}/comments")
     public CommentDto add(@PathVariable long userId, @PathVariable long eventId, @RequestBody NewCommentDto newCommentDto) {
         return commentService.add(userId, eventId, newCommentDto);
     }
 
-    @DeleteMapping("/{userId}/events/{eventId}/comments/{commId}")
+    @DeleteMapping("/events/{eventId}/comments/{commId}")
     public void delete(@PathVariable long userId, @PathVariable long eventId, @PathVariable long commId) {
         commentService.delete(userId, eventId, commId);
     }
 
-    @PatchMapping("/{userId}/events/{eventId}/comments")
+    @PatchMapping("/events/{eventId}/comments")
     public CommentDto update(@PathVariable long userId, @PathVariable long eventId, @RequestBody CommentDto commentDto) {
         return commentService.update(userId, eventId, commentDto);
     }
 
-    @GetMapping("/{userId}/comments")
+    @GetMapping("/comments")
     public List<CommentDto> getAllByUser(@PathVariable long userId,
                                          @RequestParam(required = false, defaultValue = "0") int from,
                                          @RequestParam(required = false, defaultValue = "10") int size) {
