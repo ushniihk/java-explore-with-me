@@ -24,7 +24,7 @@ public class AdminCommentController {
         return commentService.getAll(from, size);
     }
 
-    @GetMapping("")
+    @GetMapping("/find")
     public List<CommentDto> findByText(@RequestParam String text,
                                    @RequestParam(required = false, defaultValue = "0") int from,
                                    @RequestParam(required = false, defaultValue = "10") int size) {
