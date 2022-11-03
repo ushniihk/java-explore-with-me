@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> getAllByUser(long userId, int from, int size) {
         checkUserId(userId);
-        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED").descending());
         return commentRepository.getAllByUserId(userId, pageRequest).stream()
                 .map(commentMapper::toCommentDto).collect(Collectors.toList());
     }
@@ -74,7 +74,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> getAllByEvent(long eventId, int from, int size) {
         checkEventId(eventId);
-        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("created").descending());
         return commentRepository.getAllByEventId(eventId, pageRequest).stream()
                 .map(commentMapper::toCommentDto).collect(Collectors.toList());
     }
@@ -98,14 +98,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> getAll(int from, int size) {
-        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED").descending());
         return commentRepository.findAll(pageRequest).stream()
                 .map(commentMapper::toCommentDto).collect(Collectors.toList());
     }
 
     @Override
     public List<CommentDto> findByText(String text, int from, int size) {
-        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED"));
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("CREATED").descending());
         return commentRepository.findAllByMessageContainsIgnoreCase(text, pageRequest).stream()
                 .map(commentMapper::toCommentDto).collect(Collectors.toList());
     }
