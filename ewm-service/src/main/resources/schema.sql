@@ -5,6 +5,7 @@ drop table if exists compilations cascade;
 drop table if exists users cascade;
 drop table if exists events_compilation cascade;
 drop table if exists categories cascade;
+drop table if exists comments cascade;
 
 create table if not exists locations
 (
