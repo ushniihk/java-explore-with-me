@@ -18,9 +18,12 @@ public class PublicEventController {
     private final EventClient eventClient;
 
     @GetMapping
-    public List<EventFullDto> getAll(@RequestParam String text, @RequestParam List<Long> categories,
-                                     @RequestParam boolean paid, @RequestParam String rangeStart,
-                                     @RequestParam String rangeEnd, @RequestParam String sort,
+    public List<EventFullDto> getAll(@RequestParam String text,
+                                     @RequestParam List<Long> categories,
+                                     @RequestParam boolean paid,
+                                     @RequestParam(required = false) String rangeStart,
+                                     @RequestParam(required = false) String rangeEnd,
+                                     @RequestParam(required = false) String sort,
                                      @RequestParam(defaultValue = "false") boolean onlyAvailable,
                                      @RequestParam(required = false, defaultValue = "0") int from,
                                      @RequestParam(required = false, defaultValue = "10") int size,

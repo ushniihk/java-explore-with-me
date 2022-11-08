@@ -19,4 +19,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> getCompilationsEvents(long compilationId);
 
     Page<Event> getEventsByStateInAndCategoryInAndInitiatorIn(List<String> state, List<Long> categories, List<Long> users, Pageable pageable);
+
+    Page<Event> getEventsByCategoryInAndInitiatorIn(List<Long> categories, List<Long> users, Pageable pageable);
+
 }

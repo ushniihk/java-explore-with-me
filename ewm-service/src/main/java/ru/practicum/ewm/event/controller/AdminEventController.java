@@ -17,12 +17,12 @@ public class AdminEventController {
 
     @GetMapping
     public List<EventFullDto> getAll(@RequestParam List<Long> users,
-                                    @RequestParam List<String> states,
-                                    @RequestParam List<Long> categories,
-                                    @RequestParam String rangeStart,
-                                    @RequestParam String rangeEnd,
-                                    @RequestParam (required = false, defaultValue = "0") int from,
-                                    @RequestParam (required = false, defaultValue = "10") int size) {
+                                     @RequestParam(required = false) List<String> states,
+                                     @RequestParam List<Long> categories,
+                                     @RequestParam(required = false) String rangeStart,
+                                     @RequestParam(required = false) String rangeEnd,
+                                     @RequestParam(required = false, defaultValue = "0") int from,
+                                     @RequestParam(required = false, defaultValue = "10") int size) {
         return eventService.getAllByAdmin(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 

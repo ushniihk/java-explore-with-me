@@ -64,12 +64,17 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventFullDto> getAllPublished(String text, List<Long> categories, boolean paid, String rangeStart,
                                               String rangeEnd, String sort, boolean onlyAvailable, int from, int size) {
-        if (sort.equals("EVENT_DATE")) {
-            sort = "eventDate";
-        } else {
-            sort = "views";
+        PageRequest pageRequest = PageRequest.of(from / size, size);
+        if (sort != null) {
+            if (sort.equals("EVENT_DATE")) {
+                sort = "eventDate";
+                pageRequest = PageRequest.of(from / size, size, Sort.by(sort).ascending());
+            }
+            if (sort.equals("VIEWS")) {
+                sort = "views";
+                pageRequest = PageRequest.of(from / size, size, Sort.by(sort).ascending());
+            }
         }
-        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by(sort).ascending());
         List<EventFullDto> list =
                 filterByDate(eventRepository.getEventByStateAndCategoryInAndPaid(State.PUBLISHED.toString(), categories, paid, pageRequest)
                         .stream().collect(Collectors.toList()), rangeStart, rangeEnd).stream()
@@ -227,7 +232,13 @@ public class EventServiceImpl implements EventService {
     public List<EventFullDto> getAllByAdmin(List<Long> users, List<String> states, List<Long> categories,
                                             String rangeStart, String rangeEnd, int from, int size) {
         PageRequest pageRequest = PageRequest.of(from / size, size);
-        return filterByDate(eventRepository.getEventsByStateInAndCategoryInAndInitiatorIn(states, categories, users, pageRequest).toList(), rangeStart, rangeEnd)
+        if (states == null) {
+            return filterByDate(eventRepository.getEventsByCategoryInAndInitiatorIn(
+                    categories, users, pageRequest).toList(), rangeStart, rangeEnd)
+                    .stream().map(eventMapper::toEventFullDtoPublished).collect(Collectors.toList());
+        }
+        return filterByDate(eventRepository.getEventsByStateInAndCategoryInAndInitiatorIn(
+                states, categories, users, pageRequest).toList(), rangeStart, rangeEnd)
                 .stream().map(eventMapper::toEventFullDtoPublished).collect(Collectors.toList());
     }
 
