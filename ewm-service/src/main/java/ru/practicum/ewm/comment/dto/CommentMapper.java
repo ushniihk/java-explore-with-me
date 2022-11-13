@@ -19,6 +19,7 @@ public class CommentMapper {
 
     public CommentDto toCommentDto(Comment comment) {
         return new CommentDto(
+                comment.getId(),
                 comment.getMessage(),
                 eventMapper.toEventShortDto(eventRepository.getReferenceById(comment.getEventId())),
                 UserMapper.toUserShortDto(userRepository.getReferenceById(comment.getUserId())),
